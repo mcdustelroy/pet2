@@ -138,6 +138,7 @@ app.get('/:account/order/list', urlencodedParser, jsonParser, async function(req
 })
 
 app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, res, next) {
+    console.log('first line of /order/placeoso: ', req.body)
     const contractToFlatten = req.body.symbol
     try {
         if (req.body.name === "Close Last Order") {
@@ -158,6 +159,9 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
 
             const {accessToken} = await getauthed(req.body.account)
 
+            if (!accessToken){
+                throw new Error('Missing accessToken')
+            }
             if (!accountID){
                 throw new Error('Missing account type in req.body');
             }
@@ -233,8 +237,8 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 res.send(response.data)            
             }
 
-// flatten
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // flatten
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------
             const workingOrds = await getSortedWorkingOrders(req.body.account, accessToken)
             if (workingOrds && workingOrds.sortedWorkingOrders.length > 0) {
                 // FIRST: liqudate positions --------------------------------------------------------------------------------------------------------
