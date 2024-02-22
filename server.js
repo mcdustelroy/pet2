@@ -138,7 +138,6 @@ app.get('/:account/order/list', urlencodedParser, jsonParser, async function(req
 })
 
 app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, res, next) {
-    console.log('first line of /order/placeoso: ', req.body)
     const contractToFlatten = req.body.symbol
     try {
         if (req.body.name === "Close Last Order") {
@@ -190,8 +189,8 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                     throw new Error('Missing initialMargin')
                 }
                 console.log('-------------------------------------------------')
-                console.log('the balance data is: ', balanceInfo.data)
                 console.log('the order is: ', order)
+                console.log('the balance data is: ', balanceInfo.data)
                 console.log('the accountID is: ', accountType === 'live' ? process.env.LIVEID : process.env.DEMOID)
                 console.log('the account Value is: ', accountvalue)
                 console.log('order qty is : ', order.orderQty)
