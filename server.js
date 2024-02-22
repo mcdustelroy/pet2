@@ -133,12 +133,14 @@ app.get('/:account/order/list', urlencodedParser, jsonParser, async function(req
             'Authorization': `Bearer ${accessToken}`,
         }
     })
-
+    
     res.send(response.data)
 })
 
 app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, res, next) {
     const contractToFlatten = req.body.symbol
+    const order = req.body
+    console.log('the order is: ', order)
     try {
         if (req.body.name === "Close Last Order") {
             res.redirect('/order/cancelLast')
@@ -175,7 +177,6 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 })
-                const order = req.body
                 const accountvalue = balanceInfo.data.totalCashValue
                 const initialMargin = balanceInfo.data.initialMargin
 
@@ -189,7 +190,6 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                     throw new Error('Missing initialMargin')
                 }
                 console.log('-------------------------------------------------')
-                console.log('the order is: ', order)
                 console.log('the balance data is: ', balanceInfo.data)
                 console.log('the accountID is: ', accountType === 'live' ? process.env.LIVEID : process.env.DEMOID)
                 console.log('the account Value is: ', accountvalue)
