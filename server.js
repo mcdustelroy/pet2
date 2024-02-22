@@ -174,7 +174,7 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 })
                 const order = req.body
                 const accountvalue = balanceInfo.data.totalCashValue
-                // const initialMargin = balanceInfo.data.initialMargin
+                const initialMargin = balanceInfo.data.initialMargin
 
                 if (!order){
                     throw new Error('Missing order')
@@ -182,16 +182,16 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 if (!accountvalue){
                     throw new Error('Missing accountvalue')
                 }
-                // if (!initialMargin){
-                //     throw new Error('Missing initialMargin')
-                // }
+                if (!initialMargin){
+                    throw new Error('Missing initialMargin')
+                }
                 console.log('-------------------------------------------------')
                 console.log('the balance data is: ', balanceInfo.data)
                 console.log('the order is: ', order)
                 console.log('the accountID is: ', accountType === 'live' ? process.env.LIVEID : process.env.DEMOID)
                 console.log('the account Value is: ', accountvalue)
                 console.log('order qty is : ', order.orderQty)
-                // console.log('initial Margin is: ', initialMargin)
+                console.log('initial Margin is: ', initialMargin)
                 console.log('-------------------------------------------------')
                 
                 const orderOBJ = {
