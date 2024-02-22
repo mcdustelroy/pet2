@@ -182,9 +182,9 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 if (!accountvalue){
                     throw new Error('Missing accountvalue')
                 }
-                // if (!initialMargin){
-                //     throw new Error('Missing initialMargin')
-                // }
+                if (initialMargin === null){
+                    throw new Error('Missing initialMargin')
+                }
                 console.log('-------------------------------------------------')
                 console.log('the balance data is: ', balanceInfo.data)
                 console.log('the order is: ', order)
