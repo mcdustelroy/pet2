@@ -153,18 +153,16 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 accountType = 'live'
                 accountID = parseInt(process.env.LIVEID)
             } else {
-                console.log('Please supply an account type ("live" or "demo")')
-                console.log(req.body)
-                res.send('Please supply an account type ("live" or "demo")')
+                throw new Error('Please supply an account type ("live" or "demo")')
             }
 
             const {accessToken} = await getauthed(req.body.account)
 
             if (!accountID){
-                res.send('Missing accountID')
+                throw new Error('Missing account type in req.body');
             }
             if (!req.body.account){
-                res.send('Missing account type, "live" or "demo"')
+                throw new Error('Missing account type, "live" or "demo"')
             }
 
             const sendOrder = async () => {
@@ -179,13 +177,13 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 const initialMargin = balanceInfo.data.initialMargin
 
                 if (!order){
-                res.send('Missing order')
+                    throw new Error('Missing order')
                 }
                 if (!accountvalue){
-                    res.send('Missing accountvalue')
+                    throw new Error('Missing accountvalue')
                 }
                 if (!initialMargin){
-                    res.send('Missing initialMargin')
+                    throw new Error('Missing initialMargin')
                 }
                 console.log('-------------------------------------------------')
                 console.log('the order is: ', order)
