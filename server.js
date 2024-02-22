@@ -160,6 +160,13 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
 
             const {accessToken} = await getauthed(req.body.account)
 
+            if (!accountID){
+                res.send('Missing accountID')
+            }
+            if (!req.body.account){
+                res.send('Missing account type, "live" or "demo"')
+            }
+
             const sendOrder = async () => {
                 const balanceInfo = await axios.post(`https://${req.body.account}.tradovateapi.com/v1/cashBalance/getcashbalancesnapshot`, {"accountId": accountID}, {
                     headers: {
@@ -171,6 +178,15 @@ app.post("/order/placeoso", urlencodedParser, jsonParser, async function(req, re
                 const accountvalue = balanceInfo.data.totalCashValue
                 const initialMargin = balanceInfo.data.initialMargin
 
+                if (!order){
+                res.send('Missing order')
+                }
+                if (!accountvalue){
+                    res.send('Missing accountvalue')
+                }
+                if (!initialMargin){
+                    res.send('Missing initialMargin')
+                }
                 console.log('-------------------------------------------------')
                 console.log('the order is: ', order)
                 console.log('the accountID is: ', accountType === 'live' ? process.env.LIVEID : process.env.DEMOID)
